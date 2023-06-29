@@ -15,5 +15,6 @@
   },
   "files.autoSave": "afterDelay",
   "editor.fontSize": 14,
-  "editor.fontFamily": "Monaco"
+  "editor.fontFamily": "JetBrains Mono",
+  "cSpell.words": ["hrms"]
 }
