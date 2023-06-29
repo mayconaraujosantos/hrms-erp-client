@@ -1,0 +1,58 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build Angular app
+        run: yarn run build -- --prod
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+          cache: yarn
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Deploy to production
+        run: |
+          # Add your deployment commands here
